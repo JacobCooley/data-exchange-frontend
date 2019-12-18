@@ -8,8 +8,8 @@ import Select from '@material-ui/core/Select'
 import AppContext from '../shared/contexts/app'
 
 interface Props {
-  exchange?: Exchange
-  setExchange: (exchange: Exchange) => void
+  exchange?: number
+  setExchange: (exchange: number) => void
 }
 
 const SelectComponent = styled(Select)`
@@ -22,20 +22,26 @@ const ExchangeSelect: React.FunctionComponent<Props> = ({
 }) => {
   const context = useContext(AppContext)
   const { exchanges } = context
+
+  const handleChange = (e: any) => {
+    setExchange(e.target.value)
+  }
+
   return (
     <>
       <FormControl>
         <InputLabel>Exchange</InputLabel>
         <SelectComponent
           value={exchange}
-          onChange={(e: any) => setExchange(e.target.value)}
+          onChange={handleChange}
         >
-          <MenuItem value="Select Exchange" disabled>
-            Select Exchange
-          </MenuItem>
           {exchanges.map(exchange => {
-            if (exchange.active) {
-              return <MenuItem key={exchange.id} value={exchange.id}>{exchange.name}</MenuItem>
+            if (exchange.active && exchange.id) {
+              return (
+                <MenuItem key={exchange.id} value={exchange.id}>
+                  {exchange.name}
+                </MenuItem>
+              )
             }
           })}
         </SelectComponent>

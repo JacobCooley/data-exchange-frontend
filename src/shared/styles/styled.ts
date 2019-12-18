@@ -8,3 +8,11 @@ export const Grid = styled.div`
   align-items: center;
   grid-gap: 5px;
 `
+
+export const FlexRow = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`

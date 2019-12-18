@@ -1,18 +1,20 @@
-import { createContext } from 'react';
-import { object } from 'prop-types';
+import { createContext } from 'react'
+import { object } from 'prop-types'
+import {Exchange, OrderBook, Pair} from '../types'
 
 interface ContextProps {
-    exchanges: any[];
-    pairs: any;
-    setState(update: object): object;
+  exchanges: Exchange[]
+  pairs: Pair[]
+  orderbook?: OrderBook
+  setState(update: object): object
 }
 
 export const AppInitialValues = {
-    exchanges: [],
-    pairs: {},
-    setState: () => object,
+  exchanges: [],
+  pairs: [],
+  setState: () => object
 }
 
-const AppContext = createContext<ContextProps>(AppInitialValues);
+const AppContext = createContext<ContextProps>(AppInitialValues)
 
-export default AppContext;
+export default AppContext

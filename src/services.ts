@@ -8,18 +8,28 @@ export const getExchanges = () => {
       return response.data
     })
     .catch(function(error) {
-        console.log('error', error)
       return error
     })
 }
 
-export const getPairs = () => {
+export const getPairs = (exchange: string) => {
   return axios
-    .get(`${server}/pairs`)
+    .get(`${server}/pairs/${exchange}`)
     .then(async response => {
       return response.data.result
     })
     .catch(function(error) {
       return error
     })
+}
+
+export const getBooks = (exchange: string, pair: string) => {
+    return axios
+        .get(`${server}/books/${exchange}/${pair}`)
+        .then(async response => {
+            return response.data.result
+        })
+        .catch(function(error) {
+            return error
+        })
 }

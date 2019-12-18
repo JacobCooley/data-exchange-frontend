@@ -5,6 +5,9 @@ export const GlobalStyle = createGlobalStyle`
   * {
     font-family: 'Roboto';
   }
+  main {
+    padding: 40px;
+  }
   main > div {
     display: flex;
     align-items: center;

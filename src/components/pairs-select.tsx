@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Exchange } from '../shared/types'
+import { Pair } from '../shared/types'
 import styled from 'styled-components'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -8,8 +8,8 @@ import Select from '@material-ui/core/Select'
 import AppContext from '../shared/contexts/app'
 
 interface Props {
-  pair?: Exchange
-  setPair: (exchange: Exchange) => void
+  pair?: number
+  setPair: (pair: number) => void
 }
 
 const SelectComponent = styled(Select)`
@@ -19,29 +19,30 @@ const SelectComponent = styled(Select)`
 const PairsSelect: React.FunctionComponent<Props> = ({ pair, setPair }) => {
   const context = useContext(AppContext)
   const { pairs } = context
+
   return (
     <>
       <FormControl>
         <InputLabel>Pair</InputLabel>
         <SelectComponent
-          value={pairs}
+          value={pair}
           onChange={(e: any) => setPair(e.target.value)}
         >
-          <MenuItem value="Select Exchange" disabled>
-            Select Pair
+          <MenuItem key={0} value={0}>
+            Click to see pairs
           </MenuItem>
-          {pairs.map((pair: any) => {
-            if (pair.active) {
+          {!!pairs &&
+            pairs.map((pair: any) => {
               return (
                 <MenuItem key={pair.id} value={pair.id}>
-                  {pair.name}
+                  {pair.pair}
                 </MenuItem>
               )
-            }
-          })}
+            })}
         </SelectComponent>
       </FormControl>
     </>
   )
 }
+
 export default PairsSelect
