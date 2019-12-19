@@ -3,6 +3,7 @@ import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
 import { mergeArray, parseChartData } from '../../../shared/helper'
+import { FlexRow } from '../../../shared/styles/styled'
 
 const StyledOrderBook = styled.div<any>`
   display: flex;
@@ -15,6 +16,16 @@ const StyledOrderBook = styled.div<any>`
   }
   span {
     float: right;
+  }
+`
+
+const StyledTable = styled.div`
+  padding: 40px;
+  > div:first-child {
+    justify-content: space-between;
+    font-size: 1.1em;
+    padding-bottom: 10px;
+    text-decoration: underline;
   }
 `
 
@@ -41,21 +52,27 @@ const OrderBook: React.FunctionComponent = () => {
   const mergedBids = mergeArray(bidData, 'price')
   const mergedAsks = mergeArray(askData, 'price')
 
-  const tableData = (data: any) => {
+  const tableData = (data: any, reverse?: boolean) => {
     {
+      const sortedData = reverse ? data.slice(0).reverse() : data
       return (
-        data &&
-        data.map((item: any) => {
-          const volumeSum = Object.keys(item).reduce(
-            (sum, key) => sum + parseFloat(item[key] || 0),
-            0
-          )
-          return (
-            <div key={item.price}>
-              {item.price} <span>{volumeSum}</span>
-            </div>
-          )
-        })
+        <StyledTable>
+          <FlexRow>
+            Price <span>Total Volume</span>
+          </FlexRow>
+          {sortedData &&
+            sortedData.map((item: any) => {
+              const volumeSum = Object.keys(item).reduce(
+                (sum, key) => sum + parseFloat(item[key] || 0),
+                0
+              )
+              return (
+                <div key={item.price}>
+                  {item.price} <span>{volumeSum}</span>
+                </div>
+              )
+            })}
+        </StyledTable>
       )
     }
   }
@@ -71,7 +88,7 @@ const OrderBook: React.FunctionComponent = () => {
         <div>
           <Chart exchangeSymbols={exchangeSymbols} reversed data={mergedAsks} />
           <h2>Asks</h2>
-          {tableData(mergedAsks)}
+          {tableData(mergedAsks, true)}
         </div>
       </StyledOrderBook>
     </>
