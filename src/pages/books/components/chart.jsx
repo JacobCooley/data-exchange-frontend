@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react'
 import {
-  ComposedChart,
-  Line,
-  Bar,
   AreaChart,
   XAxis,
   YAxis,
@@ -11,9 +8,8 @@ import {
   Legend,
   Area
 } from 'recharts'
-import { coinColors, colors } from '../../../shared/styles/colors'
+import { coinColors } from '../../../shared/styles/colors'
 import styled from 'styled-components'
-import { getRandomColor } from '../../../shared/helper'
 
 export default class Chart extends PureComponent {
   render() {
@@ -41,7 +37,6 @@ export default class Chart extends PureComponent {
           </StyledTooltip>
         )
       }
-
       return null
     }
 
@@ -62,10 +57,7 @@ export default class Chart extends PureComponent {
         <XAxis dataKey="price" reversed={reversed} />
         <YAxis />
         <Tooltip content={<CustomTooltip />} />
-
         <Legend />
-        {/*<Bar dataKey="volume" barSize={20} fill="#413ea0" />*/}
-        {/*<Line dataKey="volume" fill={reversed ? colors.green : colors.red} />*/}
         {exchangeSymbols.map((exchange, i) => {
           return (
             <Area

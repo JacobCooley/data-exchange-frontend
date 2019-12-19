@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "next --port 8080",
     "build": "next build",
-    "start": "next start --port process.env.PORT",
+    "start": "next start  -p $PORT",
     "heroku-prebuild": "next build"
   },
   "dependencies": {
