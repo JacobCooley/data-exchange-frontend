@@ -33,7 +33,7 @@ const Home: React.FunctionComponent = () => {
       <Grid>
         {exchanges.map(exchange => {
           return (
-            <Link key={exchange.id} href={`/books?symbol=${exchange.symbol}`}>
+            <Link key={exchange.id} href={`/books`}>
               <StyledExchange active={exchange.active} key={exchange.id}>
                 <div>{exchange.name}</div>
               </StyledExchange>

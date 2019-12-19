@@ -1,15 +1,17 @@
 import React, { useContext } from 'react'
-import { Exchange } from '../shared/types'
 import styled from 'styled-components'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import AppContext from '../shared/contexts/app'
+import Chip from '@material-ui/core/Chip'
+import { Input } from '@material-ui/core'
+import { MenuProps } from '@material-ui/core/Menu/Menu'
 
 interface Props {
-  exchange?: number
-  setExchange: (exchange: number) => void
+  exchange?: any[]
+  setExchange: (exchange: any) => void
 }
 
 const SelectComponent = styled(Select)`
@@ -24,19 +26,22 @@ const ExchangeSelect: React.FunctionComponent<Props> = ({
   const { exchanges } = context
 
   const handleChange = (e: any) => {
-    setExchange(e.target.value)
+    const ids = e.target.value
+    const exchangesById = exchanges.filter(exchange => {
+      return ids.indexOf(exchange.id) !== -1
+    })
+    console.log('ids', ids)
+    console.log('byid', exchangesById)
+    setExchange(exchangesById)
   }
 
   return (
     <>
       <FormControl>
         <InputLabel>Exchange</InputLabel>
-        <SelectComponent
-          value={exchange}
-          onChange={handleChange}
-        >
+        <SelectComponent multiple value={exchange} onChange={handleChange}>
           {exchanges.map(exchange => {
-            if (exchange.active && exchange.id) {
+            if (exchange.active && exchange.id && exchange.name) {
               return (
                 <MenuItem key={exchange.id} value={exchange.id}>
                   {exchange.name}

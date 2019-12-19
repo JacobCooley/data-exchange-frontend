@@ -15,9 +15,6 @@ const StyledOrderBook = styled.div<any>`
   span {
     float: right;
   }
-  > div > div {
-    max-width: 400px;
-  }
 `
 
 const OrderBook: React.FunctionComponent = () => {
