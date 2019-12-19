@@ -5,7 +5,7 @@ import {Exchange, OrderBook, Pair} from '../types'
 interface ContextProps {
   exchanges: Exchange[]
   pairs: Pair[]
-  orderbook?: OrderBook
+  orderbook?: OrderBook[]
   setState(update: object): object
 }
 

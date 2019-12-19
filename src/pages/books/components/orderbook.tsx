@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
+import {mergeArray, parseChartData} from '../../../shared/helper'
 
 const StyledOrderBook = styled.div<any>`
   display: flex;
@@ -20,37 +21,59 @@ const StyledOrderBook = styled.div<any>`
 const OrderBook: React.FunctionComponent = () => {
   const context = useContext(AppContext)
   const { orderbook } = context
-  const parseData = (data: number[][]) => {
-    return data.map(item => {
-      return { price: item[0], volume: item[1] }
+
+
+
+  const bidData = orderbook!
+    .map(book => {
+      return parseChartData(book.data.bids, book.exchange)
     })
+    .flat(1)
+
+  const askData = orderbook!
+    .map(book => {
+      return parseChartData(book.data.asks, book.exchange)
+    })
+    .flat(1)
+
+  const exchangeSymbols = orderbook!.map(book => {
+    return book.exchange
+  })
+
+  const mergedBids = mergeArray(bidData, 'price')
+  const mergedAsks = mergeArray(askData, 'price')
+
+  const tableData = (data: any) => {
+    {
+      return (
+        data &&
+        data.map((item: any) => {
+          const volumeSum = Object.keys(item).reduce(
+            (sum, key) => sum + parseFloat(item[key] || 0),
+            0
+          )
+          return (
+            <div key={item.price}>
+              {item.price} <span>{volumeSum}</span>
+            </div>
+          )
+        })
+      )
+    }
   }
+
   return (
     <>
       <StyledOrderBook>
         <div>
-          <Chart reversed data={parseData(orderbook!.bids)} />
+          <Chart exchangeSymbols={exchangeSymbols} reversed data={mergedBids} />
           <h2>Bids</h2>
-          {orderbook &&
-            orderbook.bids.map(bid => {
-              return (
-                <div key={bid[0]}>
-                  {bid[0]} <span>{bid[1]}</span>
-                </div>
-              )
-            })}
+          {tableData(mergedBids)}
         </div>
         <div>
-          <Chart data={parseData(orderbook!.asks)} />
+          <Chart exchangeSymbols={exchangeSymbols} reversed data={mergedAsks} />
           <h2>Asks</h2>
-          {orderbook &&
-            orderbook.asks.map(ask => {
-              return (
-                <div key={ask[0]}>
-                  {ask[0]} <span>{ask[1]}</span>
-                </div>
-              )
-            })}
+          {tableData(mergedAsks)}
         </div>
       </StyledOrderBook>
     </>

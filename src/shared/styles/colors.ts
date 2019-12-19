@@ -19,3 +19,5 @@ export const colors: Colors = {
   red: '#D0021B',
   green: '#66CD00',
 }
+
+export const coinColors: any = ['#30424D', '#5BC0F7', '#D0021B', '#66CD00', '#000000', '#8b9296']

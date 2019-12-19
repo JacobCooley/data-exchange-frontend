@@ -8,13 +8,20 @@ export interface Exchange {
 
 export interface Pair {
   id: number
-  exchange: string
   pair: string
-  active: boolean
-  route: string
+  data: {
+    id: number
+    pair: string
+    exchange: string
+    active: boolean
+    route: string
+  }[]
 }
 
 export interface OrderBook {
-  bids: number[][]
-  asks: number[][]
+  exchange: string
+  data: {
+    bids: number[][]
+    asks: number[][]
+  }
 }

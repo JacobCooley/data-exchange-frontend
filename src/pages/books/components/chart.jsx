@@ -3,14 +3,17 @@ import {
   ComposedChart,
   Line,
   Bar,
+  AreaChart,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  Area
 } from 'recharts'
-import { colors } from '../../../shared/styles/colors'
+import { coinColors, colors } from '../../../shared/styles/colors'
 import styled from 'styled-components'
+import { getRandomColor } from '../../../shared/helper'
 
 export default class Chart extends PureComponent {
   render() {
@@ -25,7 +28,16 @@ export default class Chart extends PureComponent {
         return (
           <StyledTooltip className="custom-tooltip">
             <p className="label">Price: {label}</p>
-            <p className="intro">Volume: {payload[0].value}</p>
+            <div className="intro">
+              {payload &&
+                payload.map(exchange => {
+                  return (
+                    <div key={Math.random()}>
+                      {exchange.name ? exchange.name : ''}: {exchange.value}
+                    </div>
+                  )
+                })}
+            </div>
           </StyledTooltip>
         )
       }
@@ -33,11 +45,11 @@ export default class Chart extends PureComponent {
       return null
     }
 
-    const { data, reversed } = this.props
+    const { data, reversed, exchangeSymbols } = this.props
     return (
-      <ComposedChart
-        width={500}
-        height={600}
+      <AreaChart
+        width={600}
+        height={700}
         data={data}
         margin={{
           top: 50,
@@ -48,14 +60,25 @@ export default class Chart extends PureComponent {
       >
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="price" reversed={reversed} />
-        <YAxis dataKey="volume" />
+        <YAxis />
         <Tooltip content={<CustomTooltip />} />
 
         <Legend />
         {/*<Bar dataKey="volume" barSize={20} fill="#413ea0" />*/}
-        {/*<Bar dataKey="volume" fill={reversed ? colors.green : colors.red} />*/}
-        <Line dataKey="volume" stroke={reversed ? colors.green : colors.red} />
-      </ComposedChart>
+        {/*<Line dataKey="volume" fill={reversed ? colors.green : colors.red} />*/}
+        {exchangeSymbols.map((exchange, i) => {
+          return (
+            <Area
+              key={i}
+              type="monotone"
+              dataKey={exchange}
+              stackId="1"
+              fill={coinColors[i]}
+              stroke={coinColors[i]}
+            />
+          )
+        })}
+      </AreaChart>
     )
   }
 }

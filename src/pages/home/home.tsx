@@ -13,7 +13,6 @@ const StyledExchange = styled.div<any>`
   align-items: center;
   justify-content: center;
   margin: 5px;
-  cursor: ${props => (props.active ? 'pointer' : 'default')};
   background-color: ${props => (props.active ? colors.green : colors.red)};
   > div {
     padding: 5px;
@@ -24,8 +23,6 @@ const StyledExchange = styled.div<any>`
 const Home: React.FunctionComponent = () => {
   const context = useContext(AppContext)
   const { exchanges } = context
-
-  const openBook = (exchange: Exchange) => {}
 
   return (
     <div>

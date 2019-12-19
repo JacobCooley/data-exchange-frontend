@@ -8,7 +8,7 @@ import { FlexRow } from '../../shared/styles/styled'
 import { withRouter } from 'next/router'
 import { NextPage, NextPageContext } from 'next'
 import OrderBook from './components/orderbook'
-import { getPairs } from '../../services'
+import { getBooks, getPairs } from '../../services'
 
 const OrderBooks = styled.div`
   display: flex;
@@ -28,22 +28,30 @@ const Books: NextPage<Context> = () => {
     })
     if (pairById) {
       setPair(pairById)
-      //setState({ orderbook: await getBooks(exchangeList.symbol, pairById.pair) }) // GET ALL BOOKS
+      const promiseBooks = pairById.data.map(async pair => {
+        return {exchange: pair.exchange, data: await getBooks(pair.exchange, pair.pair)}
+      })
+      if(promiseBooks){
+        const orderbook = await Promise.all(promiseBooks)
+        setState({ orderbook })
+      }
     }
   }
 
   const fetchPairs = async () => {
-    const promisePairs = exchangeList && exchangeList.map(async exchange => {
-      return getPairs(exchange.symbol)
-    })
-    if(!!promisePairs) {
+    const promisePairs =
+      exchangeList &&
+      exchangeList.map(async exchange => {
+        return getPairs(exchange.symbol)
+      })
+    if (!!promisePairs) {
       const pairs = await Promise.all(promisePairs)
 
       const result = pairs.flat(1).reduce((acc, d): any => {
         const found = acc.find((a: any) => a.pair === d.pair)
-        const value = {...d}
+        const value = { ...d }
         if (!found) {
-          acc.push({pair: d.pair, id: d.id, data: [value]})
+          acc.push({ pair: d.pair, id: d.id, data: [value] })
         } else {
           found.data.push(value)
         }
@@ -51,10 +59,9 @@ const Books: NextPage<Context> = () => {
       }, []) as any
 
       const multiExchangedPairs = result.filter(
-          (pair: any) => pair.data.length === pairs.length
+        (pair: any) => pair.data.length === pairs.length
       )
-
-      setState({pairs: multiExchangedPairs})
+      setState({ pairs: multiExchangedPairs })
     }
   }
 
@@ -63,10 +70,11 @@ const Books: NextPage<Context> = () => {
     setState({ orderbook: undefined })
   }, [exchangeList])
 
-  console.log(pairs)
-  const exchangeIdList = exchangeList && exchangeList.map(exchange => {
-    return exchange.id
-  })
+  const exchangeIdList =
+    exchangeList &&
+    exchangeList.map(exchange => {
+      return exchange.id
+    })
   return (
     <OrderBooks>
       <FlexRow>
