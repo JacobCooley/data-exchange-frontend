@@ -5,10 +5,16 @@
   "repository": "git@github.com:JacobCooley/data-exchange-frontend.git",
   "author": "Jacob Cooley <j.cooley42@gmail.com>",
   "license": "MIT",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
     "dev": "next --port 8080",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port process.env.PORT",
     "heroku-prebuild": "next build"
   },
   "dependencies": {
