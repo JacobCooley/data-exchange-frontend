@@ -30,8 +30,6 @@ const ExchangeSelect: React.FunctionComponent<Props> = ({
     const exchangesById = exchanges.filter(exchange => {
       return ids.indexOf(exchange.id) !== -1
     })
-    console.log('ids', ids)
-    console.log('byid', exchangesById)
     setExchange(exchangesById)
   }
 
