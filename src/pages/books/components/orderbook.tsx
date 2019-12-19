@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
-import {mergeArray, parseChartData} from '../../../shared/helper'
+import { mergeArray, parseChartData } from '../../../shared/helper'
 
 const StyledOrderBook = styled.div<any>`
   display: flex;
@@ -21,8 +21,6 @@ const StyledOrderBook = styled.div<any>`
 const OrderBook: React.FunctionComponent = () => {
   const context = useContext(AppContext)
   const { orderbook } = context
-
-
 
   const bidData = orderbook!
     .map(book => {

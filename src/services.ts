@@ -1,5 +1,5 @@
 import axios from 'axios'
-const server = 'http://localhost:3000'
+const server = process.env.SERVER
 
 export const getExchanges = () => {
   return axios

@@ -5,9 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import AppContext from '../shared/contexts/app'
-import Chip from '@material-ui/core/Chip'
-import { Input } from '@material-ui/core'
-import { MenuProps } from '@material-ui/core/Menu/Menu'
 
 interface Props {
   exchange?: any[]

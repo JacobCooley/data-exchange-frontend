@@ -66,6 +66,7 @@ const Books: NextPage<Context> = () => {
   }
 
   useEffect(() => {
+    setPair({ id: 0 })
     fetchPairs()
     setState({ orderbook: undefined })
   }, [exchangeList])
