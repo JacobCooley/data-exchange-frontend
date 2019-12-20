@@ -5,7 +5,7 @@ export const getExchanges = () => {
   return axios
     .get(`${server}/exchanges`)
     .then(async response => {
-      return response.data
+      return response.data.result
     })
     .catch(function(error) {
       return error
