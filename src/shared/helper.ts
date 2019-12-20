@@ -1,4 +1,3 @@
-
 export const parseChartData = (data: number[][], exchange: string) => {
   return data.map(item => {
     return { price: item[0], [exchange]: item[1] }

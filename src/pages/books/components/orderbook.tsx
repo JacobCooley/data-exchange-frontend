@@ -2,8 +2,14 @@ import React, { useContext } from 'react'
 import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
-import { mergeArray, parseChartData } from '../../../shared/helper'
-import { FlexRow } from '../../../shared/styles/styled'
+import {mergeArray, parseChartData} from '../../../shared/helper'
+import { FlexCol, FlexRow } from '../../../shared/styles/styled'
+
+const StyledSpreadData = styled(FlexCol)`
+  font-size: 1.1em;
+  align-items: flex-start;
+  padding: 20px 0;
+`
 
 const StyledOrderBook = styled.div<any>`
   display: flex;
@@ -77,8 +83,13 @@ const OrderBook: React.FunctionComponent = () => {
     }
   }
 
+  const spread = mergedBids[0].price - mergedAsks[mergedAsks.length - 1].price
   return (
     <>
+      <StyledSpreadData>
+        <div>Spread: {spread}</div>
+        <div>Arbitrage Opportunity: {spread > 0 ? 'Yes!' : 'No.'}</div>
+      </StyledSpreadData>
       <StyledOrderBook>
         <div>
           <Chart exchangeSymbols={exchangeSymbols} reversed data={mergedBids} />

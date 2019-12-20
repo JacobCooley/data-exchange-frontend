@@ -16,3 +16,10 @@ export const FlexRow = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `
+
+export const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
