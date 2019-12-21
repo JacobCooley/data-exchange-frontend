@@ -88,7 +88,6 @@ const OrderBook: React.FunctionComponent = () => {
     <>
       <StyledSpreadData>
         <div>Spread: {spread}</div>
-        <div>Arbitrage Opportunity: {spread > 0 ? 'Yes!' : 'No.'}</div>
       </StyledSpreadData>
       <StyledOrderBook>
         <div>
