@@ -5,6 +5,7 @@ import { Grid } from '../../shared/styles/styled'
 import { colors } from '../../shared/styles/colors'
 import { Exchange } from '../../shared/types'
 import Link from 'next/link'
+import Legend from './components/legend'
 
 const StyledExchange = styled.div<any>`
   width: 100%;
@@ -30,14 +31,13 @@ const Home: React.FunctionComponent = () => {
       <Grid>
         {exchanges.map(exchange => {
           return (
-            <Link key={exchange.id} href={`/books`}>
-              <StyledExchange active={exchange.active} key={exchange.id}>
-                <div>{exchange.name}</div>
-              </StyledExchange>
-            </Link>
+            <StyledExchange active={exchange.active} key={exchange.id}>
+              <div>{exchange.name}</div>
+            </StyledExchange>
           )
         })}
       </Grid>
+      <Legend />
     </div>
   )
 }
