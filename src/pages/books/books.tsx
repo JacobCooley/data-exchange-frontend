@@ -18,7 +18,7 @@ const OrderBooks = styled.div`
 
 const Books: NextPage<Context> = () => {
   const context = useContext(AppContext)
-  const { setState, exchanges, pairs, orderbook } = context
+  const { setState, pairs, orderbook } = context
   const [exchangeList, setExchangeList] = useState<Exchange[]>([])
   const [pair, setPair] = useState<Partial<Pair>>({ id: 0 })
 
@@ -29,9 +29,12 @@ const Books: NextPage<Context> = () => {
     if (pairById) {
       setPair(pairById)
       const promiseBooks = pairById.data.map(async pair => {
-        return {exchange: pair.exchange, data: await getBooks(pair.exchange, pair.pair)}
+        return {
+          exchange: pair.exchange,
+          data: await getBooks(pair.exchange, pair.pair)
+        }
       })
-      if(promiseBooks){
+      if (promiseBooks) {
         const orderbook = await Promise.all(promiseBooks)
         setState({ orderbook })
       }
@@ -66,6 +69,7 @@ const Books: NextPage<Context> = () => {
   }
 
   useEffect(() => {
+    // Reset data on updated exchanges
     setPair({ id: 0 })
     fetchPairs()
     setState({ orderbook: undefined })
@@ -76,6 +80,7 @@ const Books: NextPage<Context> = () => {
     exchangeList.map(exchange => {
       return exchange.id
     })
+
   return (
     <OrderBooks>
       <FlexRow>

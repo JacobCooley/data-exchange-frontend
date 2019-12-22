@@ -41,6 +41,7 @@ export default class Chart extends PureComponent {
     }
 
     const { data, reversed, exchangeSymbols } = this.props
+    console.log('data', data)
     return (
       <AreaChart
         width={600}

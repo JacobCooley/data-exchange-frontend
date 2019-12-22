@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
-import {mergeArray, parseChartData} from '../../../shared/helper'
+import { mergeArray, parseChartData } from '../../../shared/helper'
 import { FlexCol, FlexRow } from '../../../shared/styles/styled'
 
 const StyledSpreadData = styled(FlexCol)`
@@ -25,14 +25,11 @@ const StyledOrderBook = styled.div<any>`
   }
 `
 
-const StyledTable = styled.div`
+const StyledTable = styled.div<any>`
   padding: 40px;
-  > div:first-child {
-    justify-content: space-between;
-    font-size: 1.1em;
-    padding-bottom: 10px;
-    text-decoration: underline;
-  }
+  display: grid;
+  grid-template-columns: ${props => `repeat(${props.columns}, 1fr)`};
+  grid-auto-rows: minmax(100px, auto);
 `
 
 const OrderBook: React.FunctionComponent = () => {
@@ -61,21 +58,37 @@ const OrderBook: React.FunctionComponent = () => {
   const tableData = (data: any, reverse?: boolean) => {
     {
       const sortedData = reverse ? data.slice(0).reverse() : data
+      const exchangeList = orderbook
+        ? orderbook.map(book => {
+            return book.exchange
+          })
+        : []
+      const numberOfExchanges = 2 + exchangeList.length
+
       return (
-        <StyledTable>
-          <FlexRow>
-            Price <span>Total Volume</span>
-          </FlexRow>
+        <StyledTable columns={numberOfExchanges}>
+          <>
+            <div>Price</div>
+            {exchangeList.map(exchange => {
+              return <div>{exchange}</div>
+            })}
+            <div>Total Volume</div>
+          </>
           {sortedData &&
             sortedData.map((item: any) => {
-              const volumeSum = Object.keys(item).reduce(
-                (sum, key) => sum + parseFloat(item[key] || 0),
-                0
-              )
               return (
-                <div key={item.price}>
-                  {item.price} <span>{volumeSum}</span>
-                </div>
+                <>
+                  <div>{item.price}</div>
+                  {exchangeList &&
+                    exchangeList.map(exchange => {
+                      return item[exchange] ? (
+                        <div>{item[exchange]}</div>
+                      ) : (
+                        <div />
+                      )
+                    })}
+                  <div>{item.total}</div>
+                </>
               )
             })}
         </StyledTable>
