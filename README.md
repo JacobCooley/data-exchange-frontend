@@ -13,7 +13,6 @@ The books page allows for multiple selection of exchanges and a pair that is sha
 
 Improvements:
 1. Add BigNumber.js is probably one of the most important
-2. Make chart data aggregate to better resemble depth chart
-3. Unit test the front end
-4. Add Styling
-5. Show arbitrage opportunities per exchange
+2. Unit test the front end
+3. Add Styling
+4. Show arbitrage opportunities per exchange

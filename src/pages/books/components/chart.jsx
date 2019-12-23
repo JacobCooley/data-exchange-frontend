@@ -41,12 +41,36 @@ export default class Chart extends PureComponent {
     }
 
     const { data, reversed, exchangeSymbols } = this.props
-    
+
+    const dataWithAggregatedVolumes = () => {
+      //Aggregate and save for depth chart
+      let newDataArray = []
+      const sortedArray = reversed
+        ? data.sort((a, b) => (a['price'] < b['price'] ? 1 : -1))
+        : data
+      sortedArray.forEach((item, index) => {
+        let newItem = { ...item }
+        exchangeSymbols.forEach(property => {
+          const previousPropertyValue =
+            index > 0 && newDataArray[index - 1][property]
+              ? newDataArray[index - 1][property]
+              : 0
+          const updatedProperty = item[property]
+            ? item[property] + previousPropertyValue
+            : previousPropertyValue
+          newItem[property] =
+            property === 'price' ? item[property] : updatedProperty
+        })
+        newDataArray.push(newItem)
+      })
+      return newDataArray
+    }
+
     return (
       <AreaChart
         width={600}
         height={700}
-        data={data}
+        data={dataWithAggregatedVolumes()}
         margin={{
           top: 50,
           right: 20,
@@ -55,7 +79,7 @@ export default class Chart extends PureComponent {
         }}
       >
         <CartesianGrid stroke="#f5f5f5" />
-        <XAxis dataKey="price" reversed={reversed} />
+        <XAxis reversed={reversed} dataKey="price" />
         <YAxis />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
@@ -68,6 +92,7 @@ export default class Chart extends PureComponent {
               stackId="1"
               fill={coinColors[i]}
               stroke={coinColors[i]}
+              strokeWidth={0.1}
             />
           )
         })}

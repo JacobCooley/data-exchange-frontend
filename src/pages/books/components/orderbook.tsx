@@ -30,15 +30,12 @@ const StyledOrderBook = styled.div<any>`
   }
 `
 
-const StyledTable = styled.div<any>`
+const StyledTable = styled.table<any>`
   padding: 40px;
-  display: grid;
-  grid-template-columns: ${props => `repeat(${props.columns}, 1fr)`};
-  grid-auto-rows: minmax(20px, auto);
-  grid-gap: 10px;
   border: 1px solid #ccc;
-  > div {
-    display: contents;
+  th, td {
+    text-align: start;
+    padding: 10px;
   }
 `
 
@@ -68,39 +65,37 @@ const OrderBook: React.FunctionComponent = () => {
   const tableData = (data: any, reverse?: boolean) => {
     {
       const sortedData = reverse ? data.slice(0).reverse() : data
-      const exchangeList = orderbook
-        ? orderbook.map(book => {
-            return book.exchange
-          })
-        : []
-      const numberOfExchanges = 2 + exchangeList.length
+      const numberOfExchanges = 2 + exchangeSymbols.length
 
       return (
         <StyledTable columns={numberOfExchanges}>
-          <div>
-            <div>Price</div>
-            {exchangeList.map(exchange => {
-              return <div key={exchange}>{exchange}</div>
-            })}
-            <div>Total Volume</div>
-          </div>
-          {sortedData &&
-            sortedData.map((item: any) => {
-              return (
-                <div key={item.price}>
-                  <div>{item.price}</div>
-                  {exchangeList &&
-                    exchangeList.map(exchange => {
+          <thead>
+            <tr>
+              <th>Price</th>
+              {exchangeSymbols.map(exchange => {
+                return <th key={exchange}>{exchange}</th>
+              })}
+              <th>Total Volume</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedData &&
+              sortedData.map((item: any) => {
+                return (
+                  <tr key={item.price}>
+                    <td>{item.price}</td>
+                    {exchangeSymbols.map(exchange => {
                       return item[exchange] ? (
-                        <div key={item.price + exchange}>{item[exchange]}</div>
+                        <td key={item.price + exchange}>{item[exchange]}</td>
                       ) : (
-                        <div key={item.price + exchange} />
+                        <td key={item.price + exchange} />
                       )
                     })}
-                  <div>{item.total}</div>
-                </div>
-              )
-            })}
+                    <td>{item.total}</td>
+                  </tr>
+                )
+              })}
+          </tbody>
         </StyledTable>
       )
     }
@@ -114,14 +109,14 @@ const OrderBook: React.FunctionComponent = () => {
       </StyledSpreadData>
       <StyledOrderBook>
         <div>
-          <Chart exchangeSymbols={exchangeSymbols} reversed data={mergedBids} />
+          <Chart reversed exchangeSymbols={exchangeSymbols} data={mergedBids} />
           <h2>Bids</h2>
-          {tableData(mergedBids)}
+          {tableData(mergedBids, true)}
         </div>
         <div>
-          <Chart exchangeSymbols={exchangeSymbols} reversed data={mergedAsks} />
+          <Chart exchangeSymbols={exchangeSymbols} data={mergedAsks} />
           <h2>Asks</h2>
-          {tableData(mergedAsks, true)}
+          {tableData(mergedAsks)}
         </div>
       </StyledOrderBook>
     </>

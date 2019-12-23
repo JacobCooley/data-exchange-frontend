@@ -19,7 +19,7 @@ export const mergeArray = (array: any, property: string) => {
     }
   })
   // Then sort
-  const sortedArray = output.sort((a: any, b: any) => (a[property] < b[property] ? 1 : -1))
+  const sortedArray = output.sort((a: any, b: any) => (a[property] < b[property] ? -1 : 1))
   // Then total all except by main property
   const totaledArray = sortedArray.map((item: any) => {
     const total = Object.keys(item).reduce((acc, currentProperty) => {
