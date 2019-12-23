@@ -27,6 +27,5 @@ export const mergeArray = (array: any, property: string) => {
     }, 0)
     return {...item, total}
   })
-  console.log('tot', totaledArray)
   return totaledArray
 }

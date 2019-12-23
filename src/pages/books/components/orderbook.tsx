@@ -3,7 +3,7 @@ import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
 import { mergeArray, parseChartData } from '../../../shared/helper'
-import { FlexCol, FlexRow } from '../../../shared/styles/styled'
+import { FlexCol } from '../../../shared/styles/styled'
 
 const StyledSpreadData = styled(FlexCol)`
   font-size: 1.1em;
@@ -16,7 +16,12 @@ const StyledOrderBook = styled.div<any>`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-evenly;
-  width: 100%;
+  width: fit-content;
+  > div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
   h2 {
     text-align: center;
   }
@@ -29,7 +34,12 @@ const StyledTable = styled.div<any>`
   padding: 40px;
   display: grid;
   grid-template-columns: ${props => `repeat(${props.columns}, 1fr)`};
-  grid-auto-rows: minmax(100px, auto);
+  grid-auto-rows: minmax(20px, auto);
+  grid-gap: 2px;
+  border: 1px solid #ccc;
+  > div {
+    display: contents;
+  }
 `
 
 const OrderBook: React.FunctionComponent = () => {
@@ -67,17 +77,17 @@ const OrderBook: React.FunctionComponent = () => {
 
       return (
         <StyledTable columns={numberOfExchanges}>
-          <>
+          <div>
             <div>Price</div>
             {exchangeList.map(exchange => {
-              return <div>{exchange}</div>
+              return <div key={exchange}>{exchange}</div>
             })}
             <div>Total Volume</div>
-          </>
+          </div>
           {sortedData &&
             sortedData.map((item: any) => {
               return (
-                <>
+                <div key={item.price}>
                   <div>{item.price}</div>
                   {exchangeList &&
                     exchangeList.map(exchange => {
@@ -88,7 +98,7 @@ const OrderBook: React.FunctionComponent = () => {
                       )
                     })}
                   <div>{item.total}</div>
-                </>
+                </div>
               )
             })}
         </StyledTable>
