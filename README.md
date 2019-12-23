@@ -16,3 +16,4 @@ Improvements:
 2. Unit test the front end
 3. Add Styling
 4. Show arbitrage opportunities per exchange
+5. Match each chart to the same scale + zoom in/out

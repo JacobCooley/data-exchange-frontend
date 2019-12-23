@@ -33,7 +33,8 @@ const StyledOrderBook = styled.div<any>`
 const StyledTable = styled.table<any>`
   padding: 40px;
   border: 1px solid #ccc;
-  th, td {
+  th,
+  td {
     text-align: start;
     padding: 10px;
   }
@@ -88,7 +89,7 @@ const OrderBook: React.FunctionComponent = () => {
                       return item[exchange] ? (
                         <td key={item.price + exchange}>{item[exchange]}</td>
                       ) : (
-                        <td key={item.price + exchange} />
+                        <td key={item.price + exchange}>0</td>
                       )
                     })}
                     <td>{item.total}</td>
