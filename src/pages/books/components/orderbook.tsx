@@ -35,7 +35,7 @@ const StyledTable = styled.div<any>`
   display: grid;
   grid-template-columns: ${props => `repeat(${props.columns}, 1fr)`};
   grid-auto-rows: minmax(20px, auto);
-  grid-gap: 2px;
+  grid-gap: 10px;
   border: 1px solid #ccc;
   > div {
     display: contents;
@@ -92,9 +92,9 @@ const OrderBook: React.FunctionComponent = () => {
                   {exchangeList &&
                     exchangeList.map(exchange => {
                       return item[exchange] ? (
-                        <div>{item[exchange]}</div>
+                        <div key={item.price + exchange}>{item[exchange]}</div>
                       ) : (
-                        <div />
+                        <div key={item.price + exchange} />
                       )
                     })}
                   <div>{item.total}</div>
