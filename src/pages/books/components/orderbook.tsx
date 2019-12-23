@@ -101,7 +101,7 @@ const OrderBook: React.FunctionComponent = () => {
     }
   }
 
-  const spread = mergedBids[0].price - mergedAsks[mergedAsks.length - 1].price
+  const spread = mergedBids[mergedBids.length - 1].price - mergedAsks[mergedAsks.length - 1].price
   return (
     <>
       <StyledSpreadData>
