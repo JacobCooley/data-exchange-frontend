@@ -5,8 +5,6 @@ import PairsSelect from '../../components/pairs-select'
 import styled from 'styled-components'
 import AppContext from '../../shared/contexts/app'
 import { FlexRow } from '../../shared/styles/styled'
-import { withRouter } from 'next/router'
-import { NextPage, NextPageContext } from 'next'
 import OrderBook from './components/orderbook'
 import { getBooks, getPairs } from '../../services'
 import Loading from '../../components/loading'
@@ -19,12 +17,18 @@ const OrderBooks = styled.div`
   min-width: 100%;
 `
 
-const Books: NextPage<Context> = () => {
+const Books = () => {
   const context = useContext(AppContext)
   const { setState, pairs, orderbook } = context
   const [exchangeList, setExchangeList] = useState<Exchange[]>([])
   const [pair, setPair] = useState<Partial<Pair>>({ id: 0 })
   const [loading, setLoading] = useState(false)
+
+  const updateExchanges = (value: any) => {
+    if(value.length <= 4){
+      setExchangeList(value)
+    }
+  }
 
   const updatePair = async (id: number) => {
     setLoading(true)
@@ -87,13 +91,12 @@ const Books: NextPage<Context> = () => {
       return exchange.id
     })
 
-
   return (
     <OrderBooks>
       <FlexRow>
         <ExchangeSelect
           exchange={exchangeIdList}
-          setExchange={setExchangeList}
+          setExchange={updateExchanges}
         />
         <PairsSelect pair={pair.id} setPair={updatePair} />
       </FlexRow>
@@ -102,12 +105,5 @@ const Books: NextPage<Context> = () => {
     </OrderBooks>
   )
 }
-interface Context extends NextPageContext {
-  router: {
-    query: {
-      symbol: string
-    }
-  }
-}
 
-export default withRouter(Books as any)
+export default Books

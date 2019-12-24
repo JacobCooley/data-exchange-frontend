@@ -25,6 +25,6 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
   .MuiSelect-root {
-    min-width: 120px !important;
+    min-width: 140px !important;
   }
 `

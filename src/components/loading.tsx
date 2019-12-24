@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ClipLoader } from 'react-spinners'
+import { SyncLoader } from 'react-spinners'
 import { colors } from '../shared/styles/colors'
 
 type Props = {
@@ -24,7 +24,7 @@ const Loading: React.FunctionComponent<Props> = ({ loading }) => {
     <>
       {loading && (
         <LoadingComponent>
-          <ClipLoader size={150} color={colors.primary} loading={loading} />
+          <SyncLoader size={15} color={colors.primary} loading={loading} />
         </LoadingComponent>
       )}
     </>

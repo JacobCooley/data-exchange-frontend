@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, { useContext, useState } from 'react'
 import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
@@ -64,42 +64,40 @@ const OrderBook: React.FunctionComponent = () => {
   const mergedAsks = mergeArray(askData, 'price')
 
   const tableData = (data: any, reverse?: boolean) => {
-    {
-      const sortedData = reverse ? data.slice(0).reverse() : data
-      const numberOfExchanges = 2 + exchangeSymbols.length
+    const sortedData = reverse ? data.slice(0).reverse() : data
+    const numberOfExchanges = 2 + exchangeSymbols.length
 
-      return (
-        <StyledTable columns={numberOfExchanges}>
-          <thead>
-            <tr>
-              <th>Price</th>
-              {exchangeSymbols.map(exchange => {
-                return <th key={exchange}>{exchange}</th>
-              })}
-              <th>Total Volume</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedData &&
-              sortedData.map((item: any) => {
-                return (
-                  <tr key={item.price}>
-                    <td>{item.price}</td>
-                    {exchangeSymbols.map(exchange => {
-                      return item[exchange] ? (
-                        <td key={item.price + exchange}>{item[exchange]}</td>
-                      ) : (
-                        <td key={item.price + exchange}>0</td>
-                      )
-                    })}
-                    <td>{item.total}</td>
-                  </tr>
-                )
-              })}
-          </tbody>
-        </StyledTable>
-      )
-    }
+    return (
+      <StyledTable columns={numberOfExchanges}>
+        <thead>
+          <tr>
+            <th>Price</th>
+            {exchangeSymbols.map(exchange => {
+              return <th key={exchange}>{exchange}</th>
+            })}
+            <th>Total Volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedData &&
+            sortedData.map((item: any) => {
+              return (
+                <tr key={item.price}>
+                  <td>{item.price}</td>
+                  {exchangeSymbols.map(exchange => {
+                    return item[exchange] ? (
+                      <td key={item.price + exchange}>{item[exchange]}</td>
+                    ) : (
+                      <td key={item.price + exchange}>0</td>
+                    )
+                  })}
+                  <td>{item.total}</td>
+                </tr>
+              )
+            })}
+        </tbody>
+      </StyledTable>
+    )
   }
 
   const spread = mergedAsks[0].price - mergedBids[mergedBids.length - 1].price

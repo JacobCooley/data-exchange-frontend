@@ -33,7 +33,7 @@ const ExchangeSelect: React.FunctionComponent<Props> = ({
   return (
     <>
       <FormControl>
-        <InputLabel>Exchange</InputLabel>
+        <InputLabel>Exchanges (Max 4)</InputLabel>
         <SelectComponent multiple value={exchange} onChange={handleChange}>
           {exchanges.map(exchange => {
             if (exchange.active && exchange.id && exchange.name) {
