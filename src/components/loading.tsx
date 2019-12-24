@@ -17,6 +17,7 @@ const LoadingComponent = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.02);
+  z-index: 3;
 `
 
 const Loading: React.FunctionComponent<Props> = ({ loading }) => {
