@@ -9,6 +9,7 @@ import { withRouter } from 'next/router'
 import { NextPage, NextPageContext } from 'next'
 import OrderBook from './components/orderbook'
 import { getBooks, getPairs } from '../../services'
+import Loading from '../../components/loading'
 
 const OrderBooks = styled.div`
   display: flex;
@@ -23,8 +24,10 @@ const Books: NextPage<Context> = () => {
   const { setState, pairs, orderbook } = context
   const [exchangeList, setExchangeList] = useState<Exchange[]>([])
   const [pair, setPair] = useState<Partial<Pair>>({ id: 0 })
+  const [loading, setLoading] = useState(false)
 
   const updatePair = async (id: number) => {
+    setLoading(true)
     const pairById = pairs.find(pair => {
       return pair.id === id
     })
@@ -40,6 +43,7 @@ const Books: NextPage<Context> = () => {
         const orderbook = await Promise.all(promiseBooks)
         setState({ orderbook })
       }
+      setLoading(false)
     }
   }
 
@@ -83,6 +87,7 @@ const Books: NextPage<Context> = () => {
       return exchange.id
     })
 
+
   return (
     <OrderBooks>
       <FlexRow>
@@ -92,6 +97,7 @@ const Books: NextPage<Context> = () => {
         />
         <PairsSelect pair={pair.id} setPair={updatePair} />
       </FlexRow>
+      <Loading loading={loading} />
       {orderbook && <OrderBook />}
     </OrderBooks>
   )

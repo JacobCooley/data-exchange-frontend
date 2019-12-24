@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, {useContext, useState} from 'react'
 import AppContext from '../../../shared/contexts/app'
 import styled from 'styled-components'
 import Chart from './chart'
@@ -100,7 +100,7 @@ const OrderBook: React.FunctionComponent = () => {
         </StyledTable>
       )
     }
-}
+  }
 
   const spread = mergedAsks[0].price - mergedBids[mergedBids.length - 1].price
   return (

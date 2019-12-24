@@ -6,8 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto';
   }
   body {
-    width: fit-content;
-    min-width: 100%;
+   
   }
   main {
     padding: 40px;
