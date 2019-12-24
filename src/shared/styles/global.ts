@@ -5,11 +5,9 @@ export const GlobalStyle = createGlobalStyle`
   * {
     font-family: 'Roboto';
   }
-  body {
-   
-  }
   main {
     padding: 40px;
+    min-width: fit-content;
   }
   main > div {
     display: flex;
