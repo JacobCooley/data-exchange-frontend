@@ -21,6 +21,9 @@ const StyledOrderBook = styled.div<any>`
     display: flex;
     align-items: center;
     flex-direction: column;
+    + div {
+      margin-left: 20px;
+    }
   }
   h2 {
     text-align: center;
